@@ -1,0 +1,296 @@
+<html>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Satisfy|Pathway+Gothic+One);
+/* Defaults */
+html, body, #quizzie {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #677c8a;
+  color: #fff;
+}
+
+h1 {
+  font-family: 'Satisfy', 'cursive';
+  font-size: 2.5em;
+}
+
+h2, p {
+  font-family: 'Pathway Gothic One', 'sans-serif';
+  font-size: 2em;
+}
+
+h1, h2, p {
+  text-align: center;
+  display: block;
+  width: auto;
+  margin: 1%;
+}
+
+#quizzie {
+  padding: 5% 0;
+  /* Individual Steps/Sections */
+  /* Content */
+}
+#quizzie ul {
+  list-style: none;
+  display: block;
+  width: auto;
+  margin: 2% 2%;
+  padding: 2%;
+  overflow: auto;
+  display: none;
+  /* Step Questions and Answer Options */
+}
+#quizzie ul.current {
+  display: block;
+}
+#quizzie ul li {
+  display: inline-block;
+  float: left;
+  width: 49%;
+  margin-right: 2%;
+  overflow: auto;
+  text-align: center;
+}
+#quizzie ul li.quiz-answer {
+  cursor: pointer;
+}
+#quizzie ul li.question, #quizzie ul li.results-inner {
+  display: block;
+  float: none;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 2%;
+}
+#quizzie ul li.results-inner {
+  padding: 5% 2%;
+}
+#quizzie ul li.results-inner img {
+  width: 250px;
+}
+#quizzie ul li:last-child {
+  margin-right: 0;
+}
+#quizzie .question-wrap, #quizzie .answer-wrap {
+  display: block;
+  padding: 1%;
+  margin: 1em 10%;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+#quizzie .answer-wrap {
+  background: Turquoise;
+  -moz-transition: background-color 0.5s ease;
+  -o-transition: background-color 0.5s ease;
+  -webkit-transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;
+}
+#quizzie .answer-wrap:hover {
+  background: DarkTurquoise;
+}
+</style>
+<body>
+<div id="quizzie">
+  <h1>What song should you listen to next?</h1>
+    <p>Have you ever wondered what song you should listen to next? Finding music is a magical experience, and this quiz will help you find a good song to listen to! Answer the questions and discover!<br><br>Template forked from <a href="http://codepen.io/jannypie/details/DcHdo">Jan Dennison</a></p>
+    <ul class="quiz-step step1 current">
+        <li class="question">
+            <div class="question-wrap">
+                <h2>What color do you prefer?</h2>
+            </div>
+        </li>
+        <li class="quiz-answer low-value" data-quizIndex="2">
+            <div class="answer-wrap"> 
+                <p class="answer-text">Purple</p>
+            </div>
+        </li>
+        <li class="quiz-answer high-value" data-quizIndex="4">
+            <div class="answer-wrap"> 
+                <p class="answer-text">Yellow</p>
+            </div>
+        </li>
+    </ul>
+    <ul class="quiz-step step2">
+        <li class="question">
+            <div class="question-wrap">
+                <p>Which food do you prefer?</p>
+            </div>
+        </li>
+        <li class="quiz-answer low-value" data-quizIndex="2">
+            <div class="answer-wrap"> 
+                <p class="answer-text">Tacos</p>
+            </div>
+        </li>
+        <li class="quiz-answer high-value" data-quizIndex="4">
+            <div class="answer-wrap">
+                <p class="answer-text">Tortellini Pasta</p>
+            </div>
+        </li>
+    </ul>
+    <ul class="quiz-step step3">
+        <li class="question">
+            <div class="question-wrap">
+                <p>Which do you connect with more?</p>
+            </div>
+        </li>
+        <li class="quiz-answer low-value" data-quizIndex="2">
+            <div class="answer-wrap">
+                <p class="answer-text">Early Bird</p>
+            </div>
+        </li>
+        <li class="quiz-answer high-value" data-quizIndex="4">
+            <div class="answer-wrap">
+                <p class="answer-text">Night Owl</p>
+            </div>
+        </li>
+    </ul>
+    <ul class="quiz-step step4">
+        <li class="question">
+            <div class="question-wrap">
+                <p>Which animal do you like more?</p>
+            </div>
+        </li>
+        <li class="quiz-answer low-value" data-quizIndex="2">
+            <div class="answer-wrap">
+                <p class="answer-text">Dolphin</p>
+            </div>
+        </li>
+        <li class="quiz-answer high-value" data-quizIndex="4">
+            <div class="answer-wrap">
+                <p class="answer-text">Cheetah</p>
+            </div>
+        </li>
+    </ul>
+    <ul id="results">
+        <li class="results-inner">
+            <p>You should listen to:</p>
+            <h1></h1>
+            <p class="desc"></p>
+        </li>
+    </ul>
+</div>
+</body>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>        
+<script>
+    // Quiz result options in a separate object for flexibility
+var resultOptions = [
+    {   title: 'You like COUNTRY music; here, check these out:',
+        desc: '<p><a href="https://www.youtube.com/watch?v=yHtLF6IicNk" target="_blank">Like It, Love It by Tim McGraw</a><br><a href="https://www.youtube.com/watch?v=kQ8xqyoZXCc" target="_blank">Follow Your Arrow by Kacey Musgraces</a><br><a href="https://www.youtube.com/watch?v=lydBPm2KRaU" target="_blank">Jesus, Take the Wheel by Carrie Underwood</a></p>'},
+    {   title: 'You like INDIE music; here, check these out:',
+        desc: '<p><a href="https://www.youtube.com/watch?v=ySYvHHUb5qw" target="_blank">Fool by BORNS</a><br><a href="https://www.youtube.com/watch?v=BACaduZ_KGo" target="_blank">I Wear Glasses by Mating Ritual</a><br><a href="https://www.youtube.com/watch?v=ckCxYdZUZsw" target="_blank">#Grownupz by FEiN</a><br><a href="https://www.youtube.com/watch?v=UPjvhk7I7eQ" target="_blank">Dissolve by Absofacto</a></p>'},
+    {   title: 'You like HIP HOP music; here, check these out:',
+        desc: '<p><a href="https://www.youtube.com/watch?v=OgiEKJ5VRdA" target="_blank">Baepsae by BTS</a><br><a href="https://www.youtube.com/watch?v=jPQ2TD7DK1w" target="_blank">Undress Rehearsal by Timeflies</a><br><a href="https://www.youtube.com/watch?v=IyVPyKrx0Xo" target="_blank">My Type by Saint Motel</a><br><a href="https://www.youtube.com/watch?v=tD4HCZe-tew" target="_blank">Lush Life by Zara Larsson</a></p>'},
+    {   title: 'You like TRAP/HOUSE music; here, check these out:',
+        desc: '<p><a href="https://www.youtube.com/watch?v=GZjt_sA2eso" target="_blank">Save Me by BTS</a><br><a href="https://www.youtube.com/watch?v=U5z8ONuMmOU" target="_blank">Closer by Lemaitre ft. Jennie A</a><br><a href="https://www.youtube.com/watch?v=ynCf7aHUO0c" target="_blank">Long Distance by Sam Gellaitry</a><br><a href="https://www.youtube.com/watch?v=QKzIBrci5B4" target="_blank">Badman - Torro Torro Remix by Autoeritque & Max Styler</a><br><a href="https://www.youtube.com/watch?v=Ih-izudb6Uo" target="_blank">Cut the Kid by Madeon</a></p>'},
+    {   title: 'You like CLASSICAL music; here, check these out:',
+        desc: '<p><a href="https://www.youtube.com/watch?v=YGRO05WcNDk" target="_blank">Nocturne Op 9 No. 2 by Chopin</a><br><a href="https://www.youtube.com/watch?v=DUmq1cpcglQ" target="_blank">Dance of the Knights by Prokofiev</a><br><a href="https://www.youtube.com/watch?v=YyknBTm_YyM" target="_blank">Danse Macabre by Saint-Saëns</a><br><a href="https://www.youtube.com/watch?v=5poSw7tFLB4" target="_blank">Marche Slave by Tchaikovsky</a><br><a href="https://www.youtube.com/watch?v=mmCnQDUSO4I" target="_blank">Waltz No. 2 by Shostakovich</a><br><a href="https://www.youtube.com/watch?v=F5zg_af9b8c" target="_blank">Finlandia by Sibelius</a></p>'}
+];
+    
+// global variables
+var quizSteps = $('#quizzie .quiz-step'),
+    totalScore = 0;
+
+// for each step in the quiz, add the selected answer value to the total score
+// if an answer has already been selected, subtract the previous value and update total score with the new selected answer value
+// toggle a visual active state to show which option has been selected
+quizSteps.each(function () {
+    var currentStep = $(this),
+        ansOpts = currentStep.children('.quiz-answer');
+    // for each option per step, add a click listener
+    // apply active class and calculate the total score
+    ansOpts.each(function () {
+        var eachOpt = $(this);
+        eachOpt[0].addEventListener('click', check, false);
+        function check() {
+            var $this = $(this),
+                value = $this.attr('data-quizIndex'),
+                answerScore = parseInt(value);
+            // check to see if an answer was previously selected
+            if (currentStep.children('.active').length > 0) {
+                var wasActive = currentStep.children('.active'),
+                    oldScoreValue = wasActive.attr('data-quizIndex'),
+                    oldScore = parseInt(oldScoreValue);
+                // handle visual active state
+                currentStep.children('.active').removeClass('active');
+                $this.addClass('active');
+                // handle the score calculation
+                totalScore -= oldScoreValue;
+                totalScore += answerScore;
+                calcResults(totalScore);
+            } else {
+                // handle visual active state
+                $this.addClass('active');
+                // handle score calculation
+                totalScore += answerScore;
+                calcResults(totalScore);
+                // handle current step
+                updateStep(currentStep);
+            }
+        }
+    });
+});
+
+// show current step/hide other steps
+function updateStep(currentStep) {
+    if(currentStep.hasClass('current')){
+       currentStep.removeClass('current');
+       currentStep.next().addClass('current');
+    }
+}
+
+// display scoring results
+function calcResults(totalScore) {
+    // only update the results div if all questions have been answered
+    if (quizSteps.find('.active').length == quizSteps.length){
+        var resultsTitle = $('#results h1'),
+            resultsDesc = $('#results .desc');
+        
+        // calc lowest possible score
+        var lowestScoreArray = $('#quizzie .low-value').map(function() {
+            return $(this).attr('data-quizIndex');
+        });
+        var minScore = 0;
+        for (var i = 0; i < lowestScoreArray.length; i++) {
+            minScore += lowestScoreArray[i] << 0;
+        }
+        // calculate highest possible score
+        var highestScoreArray = $('#quizzie .high-value').map(function() {
+            return $(this).attr('data-quizIndex');
+        });
+        var maxScore = 0;
+        for (var i = 0; i < highestScoreArray.length; i++) {
+            maxScore += highestScoreArray[i] << 0;
+        }
+        // calc range, number of possible results, and intervals between results
+        var range = maxScore - minScore,
+            numResults = resultOptions.length,
+            interval = range / (numResults - 1),
+            increment = '',
+            n = 0; //increment index
+        // incrementally increase the possible score, starting at the minScore, until totalScore falls into range. then match that increment index (number of times it took to get totalScore into range) and return the corresponding index results from resultOptions object
+        while (n < numResults) {
+            increment = minScore + (interval * n);
+            if (totalScore <= increment) {
+                // populate results
+                resultsTitle.replaceWith("<h1>" + resultOptions[n].title + "</h1>");
+                resultsDesc.replaceWith("<p class='desc'>" + resultOptions[n].desc + "</p>");
+                return;
+            } else {
+                n++;
+            }
+        }
+    }
+}
+</script>
+</html>
